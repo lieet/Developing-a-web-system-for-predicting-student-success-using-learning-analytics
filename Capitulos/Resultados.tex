@@ -1,0 +1,184 @@
+\chapter{Experiments and results}
+\label{ch:Experiments}
+
+This chapter presents the results attained by applying the EDM process to the educational data set of the IMD's students and the proposed web application that uses the selected models. Before showing the results it is important to understand how the academic performance is done in the IMD's IT course: the students' final grade is a combination of four distinct tasks. Two of these tasks are done at the end of the course and combined weighs 65\% of the final grade. The other two tasks are done and graded weekly, combining 35\% of the final grade. The analysis done in this research uses only those weekly grades.
+
+To give an overview of the data set, descriptive statistics are shown in table \ref{tab:da}, and a histogram of the students' final score, grouped by pass (True) or fail (False), is shown in figure \ref{fig:mm}. It can be noticed that it exists a balance in the data set between classes Pass and Fail. This is important because some of the classifiers' algorithms could perform poorly if the data set is imbalanced. Grades have a peak of occurrences around 5, which is the minimum grade for passing, and another peak around 0, most likely indicating those students who gave up the course.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{ccc} \hline
+\textbf{Final result} & \textbf{Number of students} & \textbf{Percentage of students} \\ \hline
+Pass                  & 3427                        & 56.47\%                         \\
+Fail                  & 2642                        & 43.53\%                         \\ \hline
+\end{tabular}   
+\caption{Final situation of students in classes}
+\label{tab:da}
+\end{table}
+
+\begin{figure}[htb]
+	\centering
+  	\includegraphics[scale=.5]{Resultados/mm.png}
+  	\caption{Students' final score}
+  	\label{fig:mm}
+\end{figure}
+
+\section{Data preprocessing}
+The first action in the preprocessing stage was to select the most relevant features. The original data set had a total of 127 features, but some of these features are either a combination of other attributes or are scores determined only at the end of the course. As the focus of this research is only on the weekly grades and attendance data, it was decided to reduce the data set.
+
+In addition, features of weeks 19 and 20 (the last two weeks in the data set) were dropped due to the amount of missing data, as seen in table \ref{tab:featmiss}. Besides that, two features were replaced to represent the classes of the problem, either for the binary or 3-class problem. One of these attributes was the final grade that was changed from a continuous variable to a nominal variable with three distinct classes. The other one was the final result class that was changed from a nominal variable (with distinct classes to indicate if the student passed or failed) to a binary.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{cc} \hline
+\textbf{Feature} & \textbf{Percentage of missing values} \\ \hline
+pp17 & 2.58\% \\
+pv17 & 2.37\% \\
+f17 & 2.58\% \\
+pp18 & 8.76\% \\
+pv18 & 8.55\% \\
+f18 & 8.76\% \\
+pp19 & 39.36\% \\
+pv19 & 39.14\% \\
+f19 & 39.36\% \\
+pp20 & 77.73\% \\
+pv20 & 77.73\% \\
+f20 & 77.73\% \\ \hline
+\end{tabular}
+\caption{Percentage of missing values of last weeks' features}
+\label{tab:featmiss}
+\end{table}
+
+To sum up, after the preprocessing, the reduced data set, used by the classifiers, had a total of 56 features that can be seen in detail in table \ref{tab:Dataset2}.
+
+The next action was dealing with missing data. In this step data from students that canceled the course was removed. Most of the students' dropping out happened in the 2020.1 semester, an atypical semester that, due to the COVID-19 pandemic, was not done in the usual hybrid format. The semester started as usual but by the 4th-week classes were stopped returning 12 weeks later with only online classes. The students were given the choice to continue in this new format or to drop out of the course. This action implied losing 247 of the 6316 samples (3.91\% of the data set). Data is shown in detail in table \ref{tab:dropouts}.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{cccc}
+\hline
+\textbf{Semester} & \begin{tabular}[c]{@{}c@{}}\textbf{Number of}\\ \textbf{students}\end{tabular} & \begin{tabular}[c]{@{}c@{}}\textbf{Number of}\\ \textbf{dropped out}\\ \textbf{students}\end{tabular} & \textbf{Dropout rate} \\ \hline
+2015.1 & 1351 & 0 & 0.00\% \\ 
+2016.1 & 1160 & 0 & 0.00\% \\ 
+2017.1 & 1076 & 0 & 0.00\% \\ 
+2017.2 & 697 & 0 & 0.00\% \\ 
+2018.1 & 639 & 0 & 0.00\% \\ 
+2019.1 & 634 & 7 & 1.10\% \\ 
+2020.1 & 759 & 240 & 31.62\% \\ \hline
+\end{tabular}
+\caption{Students' dropout rate}
+\label{tab:dropouts}
+\end{table}
+
+The remaining missing values were updated with the mean value for the feature, as this is a usual way of dealing with missing data. Finally, the last action was to scale the data so that all features share the same range. This was done because some of the algorithms used need it to work properly. So, all numeric features were scaled to the [0, 1] interval.
+
+\section{Data analysis}
+
+The problem of predicting students' end-of-term results is an example of a classification problem. In this work, the results for a binary problem (final result can be either 'Pass' or 'Fail') and also for a 3-class problem (final result can be either 'High risk', 'Middle risk' or 'No risk') were calculated.
+
+In related works \cite{akccapinar2019using} \cite{khalil2015learning}, numerous algorithms are cited as able to solve this kind of problem. So, in this work, the following algorithms were selected: Naive Bayes, KNN, Random Forest, and Logistic Regression. The performance of these selected algorithms was initially compared based on accuracy.
+
+For the 3-class problem, the final students' grades were grouped in 3 classes determined by applying the K-Means algorithm, a clustering algorithm that partitions a set of values into k sets, to the students' final grade. The centroids of the three classes are 0.78, 4.92, and 7.06. Details about the classes' balance using those groups are shown in table \ref{tab:3c}.
+
+\begin{table}[htb]
+\centering
+\begin{tabular}{ccc} \hline
+\textbf{Class} & \textbf{Number of students} & \textbf{Percentage of students} \\ \hline
+High risk                & 2202                        & 36.43\%               \\
+Middle risk              & 1760                        & 29.12\%               \\
+No risk                  & 2082                        & 34.45\%               \\ \hline
+\end{tabular}
+\caption{3-class frequency distribution}
+\label{tab:3c}
+\end{table}
+
+The performance results were obtained using a 4-fold cross validation method in all analyses. Finally, before obtaining the scores of the classifiers performance, a grid search was done to optimize the parameters of the algorithms. The final parameters, used in all analyses, are shown in table \ref{tab:param}. To clarify, the $p=1$ parameter in the KNN classifier indicates that the distance measure is the Manhattan distance.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{cc}
+\hline
+\textbf{Classifier}                                & \textbf{Parameters}                                                                                  \\ \hline
+KNN & \begin{tabular}[c]{@{}l@{}}weights='distance'\\ p=1\\ n\_neighbors=10\end{tabular}                   \\ \hline
+Logistic regression                                & \begin{tabular}[c]{@{}l@{}}max\_iter=500\\ solver='newton-cg'\end{tabular}                           \\ \hline
+Naive Bayes                                        &                                                                                                      \\ \hline
+Random forest                                      & \begin{tabular}[c]{@{}l@{}}max\_features=None\\ criterion='entropy'\\ n\_estimators=200\end{tabular} \\ \hline
+\end{tabular}
+\caption{Classifiers' parameters}
+\label{tab:param}
+\end{table}
+
+\subsection{Results}
+The first results summarize the classifiers' accuracy using all data up to a given week, in other words, all available data of grades and attendance for any given week is used to train and test the model. These results are exhibited in figures \ref{fig:ab} and \ref{fig:a3c}, and it shows that the results were similar with a slight advantage to the Logistic Regression model that obtained better results in early weeks. For this reason, this classifier was chosen to further analysis.
+
+The results of the Logistic Regression classifier are shown in more detail in table \ref{tab:lr}, with multiple performance metrics. The 3-class results are the mean of each metric for each label. These results show that in both binary and 3-class problems the F-Measure is even better than accuracy and that in the binary problem the recall always yields the best results between the different metrics. The high recall measures could indicate that the models are good at minimizing false negatives.
+
+The second results were obtained by using the Logistic Regression classifier again but with different subsets of attributes from the reduced data set. This was done to see the difference in results in comparison to using the full set of features. The subsets of attributes with its description are detailed in table \ref{tab:fd} and the results are shown in figures \ref{fig:lrb} and \ref{fig:lr3c}. These results indicate that the model using all grades' features and leaving the attendance out is close in performance to the model using the full set of features. For this reason the final chosen model was the Logistic Regression classifier using only the grades' features.
+
+\begin{table}[htb]
+\centering
+\begin{tabular}{cc} \hline
+\textbf{Set of features} & \textbf{Description} \\ \hline
+pp+pv+f & Full set of features. \\ \hline
+pp+pv & Combines all grades' features. \\ \hline
+pp & Features of grades' score in activities made in the classroom. \\ \hline
+pv & \begin{tabular}[c]{@{}c@{}}Features of grades' score in activities \\ made in the virtual learning environment.\end{tabular} \\ \hline
+f & Features about attendance. \\ \hline
+\end{tabular}
+\caption{Description of the features' set}
+\label{tab:fd}
+\end{table}
+
+After these results, because of the better performance, the binary Logistic Regression classifier was chosen to be integrated into the web application. The models were built dropping the scaling in features to the [0, 1] interval, this way, all attributes stayed in the [0, 10] interval. The full set of models is shown in appendix \ref{ch:Models}. The default class (Y=1) indicates that the student is likely to pass the course.
+
+Given these models, some interpretations could be made, such as the current week's coefficients are usually the greatest and that between type 1 grade (pp), activities made in the classroom, and type 2 grade (pv), activities in the virtual learning environment, the latter usually weigh more. Thus, the type 2 grade could have more influence on the students' chances of passing. Also, it is possible to plot the Logistic Regression function fixing all but one feature, this way it can be seen what impact one specific grade has in the students' chances, according to the model.
+
+For example, using the week 4 model and the median values of the attributes of previous weeks the figure \ref{fig:w4m} plot can be made. This graph indicates that if the student receives a 3.5 or more in type 1 grade (pp) chances are in his or her favor, same for type 2 grade (pv) starting at 6.55.
+
+\begin{figure}[htb]
+	\centering
+  	\includegraphics[scale=.5]{Resultados/week4models.png}
+  	\caption{Logistic Regression function of week 4 model}
+  	\label{fig:w4m}
+\end{figure}
+
+\section{Web system design}
+The proposed web application's purpose is to act as an early warning tool to help students and teachers visualize current academic performance and estimated chances of success. Thus, three main components are necessary to the development of the application: (1) a source of the educational data, (2) the models that predict academic performance, and (3) a server to integrate the two previous components and exhibit the results to the users.
+
+In summary, the server is structured as shown in figure \ref{fig:server}.
+
+\begin{figure}[htb]
+	\centering
+  	\includegraphics[scale=.7]{Imagens/server-model.png}
+  	\textsf{\caption{Web server architecture}
+  	\label{fig:server}}
+\end{figure}
+
+Firstly, the source of the data should be the official University's API\footnote[1]{\hspace{1mm}University's API services available in: \url{https://api.ufrn.br/}} but as the required data of students' grades were not available at the time of this research, a mock API server was built to replace the official API in the main server. The mocked server simulates only three services: get data from the logged-in user, the users' classes, and the users' grades in a class.
+
+Secondly, the Logistic Regression binary models, from week 1 to 18, were exported and added to the main server. These models are small files that were fast to build and are fast to make predictions. This was expected as the Logistic Regression models are easy to represent as they are essentially storing the intercept and coefficients of the models.
+
+Finally, the main server was built. The system login page should use the unified authentication of the University's API applications (see figure \ref{fig:login}). After the user is logged on, the server verifies the class that the user is enrolled then queries the API to obtain either the students' grades or the teacher's class grades, the next stage is to apply the models to classify each student in each week as either likely or not to pass the course, to subsequently exhibit this information in a simple dashboard.
+
+The student dashboard shows cards from all weeks of the course, the scores, and performance indicators in each week (see figure \ref{fig:webs}) that are either green or red. Green indicates that the student is likely to succeed, otherwise, it is red. The teacher dashboard will show a table crossing data from students and weeks of the course (see figure \ref{fig:webp}) and indicators. These indicators are calculated the same way as it is for the student.
+
+\begin{figure}[!htb]
+   \begin{minipage}{0.48\textwidth}
+     \centering
+     \includegraphics[width=.9\linewidth]{Imagens/login.png}
+     \caption{Login page}\label{fig:login}
+   \end{minipage}\hfill
+   \begin{minipage}{0.48\textwidth}
+     \centering
+     \includegraphics[width=.8\linewidth]{Resultados/web-student.png}
+     \caption{Student dashboard}\label{fig:webs}
+   \end{minipage}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+  	\includegraphics[scale=.6]{Resultados/web-teacher.png}
+  	\textsf{\caption{Teacher dashboard}
+  	\label{fig:webp}}
+\end{figure}
+

@@ -1,0 +1,61 @@
+\chapter{Classifiers' performance}
+\label{ch:Class}
+
+The classifiers' performance is show in figures \ref{fig:ab} and \ref{fig:a3c}, performance of the Logistic regression models with different features is show in figures \ref{fig:ab} and \ref{fig:a3c}, and details with multiple performance metrics of the Logistic Regression models is shown in table \ref{tab:lr}.
+
+\begin{figure}[htb]
+	\centering
+  	\includegraphics[scale=.6]{Resultados/binary_accuracy.png}
+  	\textsf{\caption{Classifiers' accuracy (binary)}
+  	\label{fig:ab}}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+  	\includegraphics[scale=.6]{Resultados/3classes_accuracy.png}
+  	\textsf{\caption{Classifiers' accuracy (3-class)}
+  	\label{fig:a3c}}
+\end{figure}
+
+\begin{table}[htb]
+\centering
+\begin{tabular}{ccccccc} \hline
+\multirow{2}{*}{\textbf{Week}} & \multicolumn{4}{c}{\textbf{Binary}} & \multicolumn{2}{c}{\textbf{3-class}} \\ 
+ & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F-Measure} & \textbf{Accuracy} & \textbf{F-Measure} \\ \hline
+1    & 66.51\% & 67.37\% & 80.97\% & 72.88\% & 49.32\% & 48.21\%   \\
+2    & 71.70\% & 72.44\% & 81.70\% & 76.25\% & 56.63\% & 56.01\%   \\
+3    & 73.15\% & 73.72\% & 81.99\% & 77.22\% & 59.31\% & 59.20\%   \\
+4    & 77.03\% & 76.97\% & 84.97\% & 80.56\% & 63.89\% & 64.12\%   \\
+5    & 79.74\% & 79.05\% & 87.30\% & 82.89\% & 67.30\% & 67.79\%   \\
+6    & 81.10\% & 80.42\% & 88.06\% & 83.96\% & 68.79\% & 69.27\%   \\
+7    & 82.51\% & 81.40\% & 89.58\% & 85.21\% & 70.56\% & 71.10\%   \\
+8    & 83.76\% & 82.67\% & 90.22\% & 86.21\% & 72.36\% & 73.04\%   \\
+9    & 84.47\% & 83.40\% & 90.60\% & 86.78\% & 73.44\% & 74.16\%   \\
+10   & 84.82\% & 83.77\% & 90.80\% & 87.08\% & 74.32\% & 75.10\%   \\
+11   & 85.30\% & 84.49\% & 90.72\% & 87.41\% & 75.71\% & 76.49\%   \\
+12   & 86.01\% & 85.45\% & 90.78\% & 87.93\% & 76.85\% & 77.64\%   \\
+13   & 86.94\% & 86.48\% & 91.27\% & 88.71\% & 77.66\% & 78.44\%   \\
+14   & 87.42\% & 86.54\% & 92.21\% & 89.16\% & 77.87\% & 78.65\%   \\
+15   & 87.67\% & 87.40\% & 91.56\% & 89.26\% & 78.17\% & 78.94\%   \\
+16   & 88.30\% & 87.84\% & 92.23\% & 89.80\% & 78.17\% & 78.92\%   \\
+17   & 88.33\% & 87.81\% & 92.38\% & 89.83\% & 78.07\% & 78.82\%   \\
+18   & 88.67\% & 88.34\% & 92.32\% & 90.10\% & 78.09\% & 78.85\%   \\  \hline
+\end{tabular}
+\caption{Logistic regression model's performance}
+\label{tab:lr}
+\end{table}
+
+\begin{figure}[htb]
+	\centering
+  	\includegraphics[scale=.6]{Resultados/lr_binary.png}
+  	\textsf{\caption{Logistic regression model accuracy (binary)}
+  	\label{fig:lrb}}
+\end{figure}
+
+\begin{figure}[!hb]
+	\centering
+  	\includegraphics[scale=.6]{Resultados/lr_3classes.png}
+  	\textsf{\caption{Logistic regression model accuracy (3-class)}
+  	\label{fig:lr3c}}
+\end{figure}
+

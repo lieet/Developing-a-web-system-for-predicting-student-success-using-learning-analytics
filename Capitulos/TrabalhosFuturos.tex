@@ -1,0 +1,16 @@
+\chapter{Conclusions}
+\label{ch:Conclusions}
+
+This work proposed a new educational early warning system to be used in the context of a hybrid course. This system uses predictive models to evaluate student performance and predict the likelihood of success in the course. The research was done following the steps of the LA cycle, as described in \ref{fig:edm}. The source of the data is the IMD's IT technical course. After the preprocessing, four distinct classification algorithms were evaluated. The Logistic Regression binary model was chosen based on the accuracy metric. This models' accuracy ranged from 66.51\%, in week 1, to 88.67\%, in week 18 (see table \ref{tab:lr}, and figures \ref{fig:ab} and \ref{fig:a3c}).
+
+After this research, the questions that motivated this work were addressed. Firstly, the web system prototype provides a simple dashboard that enables students and teachers to receive periodically feedback. Even though the web application was not tested by the intended users, the prototype shows how the system can work. Lastly, the models trained during the experiments achieved satisfactory results. All four different classifiers had similar good results. The Logistic Regression was the final model chosen based on performance metrics.
+
+\section{Future work}
+
+Some future works that could be made:
+
+\begin{itemize}
+    \item University's API integration: the web system developed in this work used only mocked data to simulate the student and teacher interactions with the system. Thus, so that the application can be used by the users in the IMD's IT course, the University official API would have to make the services to access the grades of the students available. Given the modularity of the system developed, it would be an easy integration.
+    \item Model improvement: the Logistic Regression models reached after all experiments in this research could be improved. One possible improvement is to analyze the features looking to drop attributes with high correlation. This action could simplify the models not losing much accuracy. Independence between features is one of the assumptions that Logistic Regression models make.
+    \item New features to the web system: the current web application developed has a dashboard with only one feature, for both teachers and students. Some new features could be added to improve the system, such as visualization of classes' average weekly grades, and, to the student, the possibility to simulate grades to see the probability of success given by the model.
+\end{itemize}
