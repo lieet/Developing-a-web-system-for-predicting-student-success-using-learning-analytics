@@ -143,7 +143,26 @@ For example, using the week 4 model and the median values of the attributes of p
 \end{figure}
 
 \section{Web system design}
-The proposed web application's purpose is to act as an early warning tool to help students and teachers visualize current academic performance and estimated chances of success. Thus, three main components are necessary to the development of the application: (1) a source of the educational data, (2) the models that predict academic performance, and (3) a server to integrate the two previous components and exhibit the results to the users.
+The proposed web application's purpose is to act as an early warning system to help students and teachers. This tool can benefit the former by having a way to visualize if his/her current weekly grades are good enough to succeed in the course, while the latter benefits by easily spotting the underperforming students, enabling possible interventions.
+
+Figure \ref{fig:sigaa_aluno} shows the current web page that the students have to see the weekly grades. It is just a table crossing week and type of grade. Using only the information shown on this page, there is no obvious way to know if the student is performing well in the course, in any given week. Thus, the suggested web system aims to be an improved version of that page, showing not only the grades but feedback of the student performance.
+
+\begin{figure}[htb]
+	\centering
+  	\includegraphics[scale=.7]{Resultados/sigaa_aluno.png}
+  	\caption{SIGAA student page of weekly grades}
+  	\label{fig:sigaa_aluno}
+\end{figure}
+
+\subsection{Architecture}
+
+Three main components were necessary to the development of the application: (1) a source of the educational data, (2) the models that predict academic performance, and (3) a server to integrate the two previous components and exhibit the results to the users.
+
+Firstly, the source of the data should be the official University's API\footnote[1]{\hspace{1mm}University's API services available in: \url{https://api.ufrn.br/servicos.html}} but as the required data of students' grades were not available at the time of this research, a mock API server was built to replace the official API in the main server. The mocked server simulates only three services: get data from the logged-in user, the users' classes, and the users' grades in a class.
+
+Secondly, the Logistic Regression binary models, from week 1 to 18, were exported and added to the main server. These models are small files that were fast to build and are fast to make predictions. This was expected as the Logistic Regression models are easy to represent as they are essentially storing the intercept and coefficients of the models.
+
+Finally, the main server was built. This server uses the two previous components to power the web system's dashboards.
 
 In summary, the server is structured as shown in figure \ref{fig:server}.
 
@@ -154,13 +173,19 @@ In summary, the server is structured as shown in figure \ref{fig:server}.
   	\label{fig:server}}
 \end{figure}
 
-Firstly, the source of the data should be the official University's API\footnote[1]{\hspace{1mm}University's API services available in: \url{https://api.ufrn.br/}} but as the required data of students' grades were not available at the time of this research, a mock API server was built to replace the official API in the main server. The mocked server simulates only three services: get data from the logged-in user, the users' classes, and the users' grades in a class.
+\subsection{Dashboards}
 
-Secondly, the Logistic Regression binary models, from week 1 to 18, were exported and added to the main server. These models are small files that were fast to build and are fast to make predictions. This was expected as the Logistic Regression models are easy to represent as they are essentially storing the intercept and coefficients of the models.
+The first system page, the login, should use the unified authentication of the University's API applications (see figure \ref{fig:login}). After the user is logged on, there are two possible use cases:
 
-Finally, the main server was built. The system login page should use the unified authentication of the University's API applications (see figure \ref{fig:login}). After the user is logged on, the server verifies the class that the user is enrolled then queries the API to obtain either the students' grades or the teacher's class grades, the next stage is to apply the models to classify each student in each week as either likely or not to pass the course, to subsequently exhibit this information in a simple dashboard.
+\begin{enumerate}
+    \item Student dashboard
+    
+The server verifies the class that the student is enrolled then queries the API to obtain all the student's weekly grades. Next, the models classify the student in each week as either likely or not to pass the course. This information is shown in the student dashboard, with cards from all weeks of the course that were graded. Those cards show the scores and performance indicators in each week (see figure \ref{fig:webs}). The indicators can be green, indicating that the student is likely to succeed, otherwise, it is red.
 
-The student dashboard shows cards from all weeks of the course, the scores, and performance indicators in each week (see figure \ref{fig:webs}) that are either green or red. Green indicates that the student is likely to succeed, otherwise, it is red. The teacher dashboard will show a table crossing data from students and weeks of the course (see figure \ref{fig:webp}) and indicators. These indicators are calculated the same way as it is for the student.
+    \item Teacher dashboard
+
+The server verifies the class that the teacher is responsible then queries the API to obtain all the teacher's weekly class grades. Next, the models classify each student in each week as either likely or not to pass the course. This information is shown in the teacher dashboard, with a single table crossing data from students and weeks of the course (see figure \ref{fig:webp}). This table also shows indicators that work the same way as it is for the student.
+\end{enumerate}
 
 \begin{figure}[!htb]
    \begin{minipage}{0.48\textwidth}
