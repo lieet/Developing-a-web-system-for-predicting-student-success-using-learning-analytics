@@ -41,6 +41,8 @@
 \usepackage{arydshln}
 %\usepackage{alg}
 
+\renewcommand{\theequation}{\arabic{equation}}
+
 % Definicao da lista de simbolos
 % \simb[entrada na lista de simbolos]{simbolo}:
 % Escreve o simbolo no texto e uma entrada na lista de simbolos.
@@ -94,6 +96,13 @@
 
 % Hifeniza  o de palavras feita de forma incorreta pelo LaTeX
 \hyphenation{PYTHON ou-tros}
+
+\newcommand{\myequation}[2][]
+{%
+	\ifthenelse{\equal{#1}{}}
+	{\addcontentsline{loe}{simb}{#2}}
+	{\addcontentsline{loe}{simb}{#1}}
+}
 
 % Inicio do documento
 \begin{document}
@@ -155,9 +164,6 @@
 	\include{Capitulos/Resultados}
 	
 	\include{Capitulos/TrabalhosFuturos}
-		
-	% Consideracoes finais
-	%\include{Capitulos/Consideracoes}
 	
 	% Bibliografia (arquivo Capitulos/Referencias.bib)
 	\bibliography{Capitulos/Referencias}
